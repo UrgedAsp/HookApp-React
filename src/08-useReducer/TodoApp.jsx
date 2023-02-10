@@ -1,54 +1,36 @@
-import { useReducer } from "react";
-import { todoReducer } from "./todoReducer";
+import { useTodo } from "../hooks/useTodo";
+import { TodoAdd } from "./TodoAdd";
+import { TodoList } from "./TodoList";
 
 export const TodoApp = () => {
-  const initialState = [
-    {
-      id: new Date().getTime(),
-      description: "Recolectar la piedra del alma",
-      done: false,
-    },
-    {
-      id: new Date().getTime() * 3,
-      description: "Recolectar la piedra del vacio",
-      done: false,
-    },
-  ];
-  const [todos, dispatch] = useReducer(todoReducer, initialState);
+  const {
+    todos,
+    todosCount,
+    pendingTodosCount,
+    handleDeleteTodo,
+    handleToggleTodo,
+    handleNewTodo,
+  } = useTodo();
 
   return (
     <>
       <h1>
-        TodoApp: 10, <small>pendientes: 2</small>
+        TodoApp: {todosCount}, <small>pendientes: {pendingTodosCount}</small>
       </h1>
       <hr />
 
       <div className="row">
         <div className="col-7">
-          <ul className="list-group">
-            {
-                todos.map(todo => (
-            <li key={todo.id} className="list-group-item d-flex justify-content-between">
-              <span className="align-self-center">Item 1</span>
-              <button className="btn btn-danger">Borrar</button>
-            </li>
-                ))
-            }
-          </ul>
+          <TodoList
+            todos={todos}
+            onDeleteTodo={handleDeleteTodo}
+            onToggleTodo={handleToggleTodo}
+          />
         </div>
         <div className="col-5">
           <h4>Agregar TODO</h4>
           <hr />
-          <form>
-            <input
-              type="text"
-              placeholder="¿Que hay que hacer?"
-              className="form-control"
-            />
-            <button type="submit" className="btn btn-outline-primary mt-1">
-              Agregar
-            </button>
-          </form>
+          <TodoAdd onNewTodo={handleNewTodo} />
         </div>
       </div>
     </>
