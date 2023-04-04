@@ -6,7 +6,13 @@ export const MultipleCustomHooks = () => {
   const { data, isLoading, hasError } = useFetch(
     `https://rickandmortyapi.com/api/character/${counter}`
   );
-  const { name, species } = data;
+  // let name, species;
+
+  // if (data) {
+  //   name = data.name;
+  //   species = data.species;
+  // }
+  const { name, species } = data ? data : { name: null, species: null };
 
   //En caso de que una api retorne un array
   // const { name, species } = !!data && data[0];
